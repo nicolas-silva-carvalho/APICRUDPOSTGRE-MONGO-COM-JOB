@@ -1,5 +1,4 @@
 using BookStoreApi.Models;
-using BookStoreApi.Services;
 using Microsoft.AspNetCore.Mvc;
 using teste.service;
 
@@ -11,15 +10,17 @@ public class BookPostGreController : ControllerBase
 {
     private readonly BookServicePostGre _booksService;
 
-    public BookPostGreController(BookServicePostGre booksService) =>
+    public BookPostGreController(BookServicePostGre booksService)
+    {
         _booksService = booksService;
-
+    }
+        
     [HttpGet]
     public async Task<List<Book>> Get() =>
         await _booksService.GetAsync();
 
     [HttpGet("{id:length(24)}")]
-    public async Task<ActionResult<Book>> Get(string id)
+    public async Task<ActionResult<Book>> Get(int id)
     {
         var book = await _booksService.GetOneAsync(id);
 
@@ -35,12 +36,16 @@ public class BookPostGreController : ControllerBase
     public async Task<IActionResult> Post(Book newBook)
     {
         await _booksService.CreateAsync(newBook);
-
         return Ok(newBook);
     }
 
+    private void JobBook(bool erro, int id, DateTime data)
+    {
+        throw new NotImplementedException();
+    }
+
     [HttpPut("{id:length(24)}")]
-    public async Task<IActionResult> Update(string id, Book updatedBook)
+    public async Task<IActionResult> Update(int id, Book updatedBook)
     {
         var book = await _booksService.GetOneAsync(id);
 
@@ -57,7 +62,7 @@ public class BookPostGreController : ControllerBase
     }
 
     [HttpDelete("{id:length(24)}")]
-    public async Task<IActionResult> Delete(string id)
+    public async Task<IActionResult> Delete(int id)
     {
         var book = await _booksService.GetOneAsync(id);
 

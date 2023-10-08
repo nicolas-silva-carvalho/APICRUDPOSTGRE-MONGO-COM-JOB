@@ -11,9 +11,9 @@ public class Job
 {
     public static void JobBook()
     {
-        RecurringJob.AddOrUpdate<BookServicePostGre>("Job",
-        x => x.JobBook(),
-        Cron.Minutely
-        );
+        // RecurringJob.AddOrUpdate<BookServicePostGre>("Job",
+        // x => x.JobBook(),
+        // Cron.Minutely
+        // );
     }
 }

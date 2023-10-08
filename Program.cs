@@ -1,9 +1,5 @@
-using System.Diagnostics;
-using BookStoreApi.Models;
-using BookStoreApi.Services;
 using Hangfire;
 using Hangfire.MemoryStorage;
-using Hangfire.Mongo;
 using Hangfire.PostgreSql;
 using Microsoft.EntityFrameworkCore;
 using teste.db;
@@ -15,7 +11,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddSingleton<BooksService>();
 builder.Services.AddScoped<BookServicePostGre>();
 builder.Services.AddDbContext<Context>(options =>
             options.UseNpgsql(builder.Configuration.GetConnectionString("HangfireConnection")));
@@ -44,7 +39,6 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 
 app.UseHangfireDashboard();
-RecurringJob.AddOrUpdate<BookServicePostGre>("Job", x => x.JobBook(),Cron.Minutely);
 
 app.UseAuthorization();
 
